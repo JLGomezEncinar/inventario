@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Listado de Productos</title>
+
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body>
+
+<div class="container">
+
+    <header>
+        <h1>Distribuidora de Hostelería</h1>
+        <p>Gestión de Productos</p>
+    </header>
+
+    <div class="top-bar">
+        <h2>Listado de Productos</h2>
+
+
+        <a th:href="@{'/productos/nuevo'}" class="btn btn-primary">
+            + Nuevo Producto
+        </a>
+    </div>
+
+    <table th:if="${!productos.isEmpty()}" >
+
+        <thead>
+        <tr>
+            <th>Código</th>
+            <th>Nombre</th>
+            <th>Categoría</th>
+            <th>Precio (€)</th>
+            <th>Stock</th>
+            <th>Descripción</th>
+            <th>Acciones</th>
+        </tr>
+        </thead>
+
+        <tbody>
+
+        <tr th:each="producto : ${productos}">
+            <td th:text="${producto.codProducto}"></td>
+            <td th:text="${producto.nombre}"></td>
+            <td th:text="${producto.categoria}"></td>
+            <td th:text="${producto.precio}"></td>
+            <td th:text="${producto.stock}"></td>
+            <td th:text="${producto.descripcion}"></td>
+            <td class="acciones">
+                <a class="btn btn-edit" th:href="@{/productos/modificar/{codProducto}(codProducto=${producto.codProducto})}">Editar</a>
+                <form method="post" onsubmit="return confirm('¿Deseas eliminar este producto?')" th:action="@{/productos/eliminar/{codProducto}(codProducto=${producto.codProducto})}">
+                <button class="btn btn-delete" type="submit" >Borrar</button>
+                </form>
+            </td>
+        </tr>
+
+
+
+        </tbody>
+
+    </table>
+    <div class="estado-vacio"
+         th:if="${productos.isEmpty()}">
+    <h3>No hay productos registrados</h3>
+    <p>Pulsa el botón de "Nuevo Producto" para agregar un producto</p>
+    </div>
+</div>
+
+</body>
+
+</html>
